@@ -47,17 +47,11 @@ data.to_csv("status.csv")
 # setting up the s3 session to upload the file 
 session = boto3.Session( aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"), aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"))
 s3 = session.resource('s3')
-my_bucket = s3.Bucket('fi-solutions')
-
-
-
-num =0
-for data in os.listdir("posts"):
-    if ".mp4" in data:
-        num +=1
+my_bucket = s3.Bucket(os.getenv("S3_BUCKET"))
+                
         
 # Renaming the to upload the file to s3
-num =0
+num =max(list([int(my_bucket_object.key.split(".")[0]) for my_bucket_object in my_bucket.objects.all() ]))
 for data in os.listdir("posts"):
     if ".mp4" in data:
         num +=1
